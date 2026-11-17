@@ -1,0 +1,21 @@
+dispositivo,etapa,ordem,sessoes_na_etapa,passagem_da_etapa_anterior,parcela_das_sessoes
+desktop,1. Sessão,1,208942,,1.0
+desktop,2. Viu produto,2,44819,0.2145,0.2145
+desktop,3. Pôs no carrinho,3,8790,0.1961,0.0421
+desktop,4. Iniciou checkout,4,6392,0.7272,0.0306
+desktop,5. Comprou,5,2749,0.4301,0.0132
+mobile,1. Sessão,1,143185,,1.0
+mobile,2. Viu produto,2,30501,0.213,0.213
+mobile,3. Pôs no carrinho,3,6077,0.1992,0.0424
+mobile,4. Iniciou checkout,4,4474,0.7362,0.0312
+mobile,5. Comprou,5,1995,0.4459,0.0139
+tablet,1. Sessão,1,8002,,1.0
+tablet,2. Viu produto,2,1700,0.2124,0.2124
+tablet,3. Pôs no carrinho,3,321,0.1888,0.0401
+tablet,4. Iniciou checkout,4,240,0.7477,0.03
+tablet,5. Comprou,5,104,0.4333,0.013
+todos,1. Sessão,1,360129,,1.0
+todos,2. Viu produto,2,77020,0.2139,0.2139
+todos,3. Pôs no carrinho,3,15188,0.1972,0.0422
+todos,4. Iniciou checkout,4,11106,0.7312,0.0308
+todos,5. Comprou,5,4848,0.4365,0.0135

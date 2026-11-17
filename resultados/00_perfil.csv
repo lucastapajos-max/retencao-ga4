@@ -1,0 +1,24 @@
+metrica,chave,valor
+total,eventos,4295584
+total,usuarios,270154
+total,sessoes,360129
+total,compradores,3713
+evento_funil,session_start,354970
+evento_funil,view_item,386068
+evento_funil,add_to_cart,58543
+evento_funil,begin_checkout,38757
+evento_funil,purchase,5692
+dispositivo,desktop,158917
+dispositivo,mobile,109195
+dispositivo,tablet,6250
+canal,organic,112358
+canal,(none),75951
+canal,referral,55495
+canal,<Other>,51038
+canal,(data deleted),18204
+canal,cpc,15528
+compras_por_comprador,1,3273
+compras_por_comprador,2,302
+compras_por_comprador,3,77
+compras_por_comprador,4,22
+compras_por_comprador,5,39

@@ -31,7 +31,7 @@ São quatro perguntas menores, uma por análise:
 - **Coortes:** cada comprador entra na coorte da semana da primeira compra. A retenção é a parte da coorte que comprou de novo 1, 2, 3… semanas depois.
 - **RFM:** só compradores. Recência e valor em quintis; frequência em três faixas (1, 2, 3 ou mais compras), porque 88,1% dos compradores (3.273 de 3.713) compraram uma vez só e quintis de frequência não separariam ninguém ([`resultados/00_perfil.csv`](resultados/00_perfil.csv)). Os segmentos saem de uma tabela de regras no próprio SQL. O empate nos quintis é desfeito pelo id do usuário, para o resultado ser o mesmo a cada execução.
 - **Teste:** z de duas proporções para celular contra computador, com intervalo de 95% e h de Cohen; qui-quadrado para os quatro canais legíveis juntos. É uma comparação observacional: ninguém sorteou os grupos, então uma diferença aqui não prova causa. O cálculo tem um teste automatizado contra um caso feito à mão ([`tests/test_teste_proporcoes.py`](tests/test_teste_proporcoes.py)).
-- **Painel:** cada fonte do Data Studio é uma consulta personalizada sobre a tabela pública, com o mesmo SQL deste repositório. Nada fica salvo no projeto do BigQuery, porque no sandbox gratuito tabelas e views expiram em 60 dias.
+- **Painel:** cada fonte do Data Studio é uma consulta personalizada sobre a tabela pública, com o mesmo SQL deste repositório. Nada fica salvo no projeto do BigQuery, porque no sandbox gratuito tabelas e views expiram em 60 dias. A preparação dos dados (limpeza, rótulos em português, taxas) fica no SQL; o Data Studio cuida da visualização e de métricas do próprio painel, como a taxa de conversão, que é um campo calculado (`SUM(sessoes_com_compra) / SUM(sessoes)`).
 
 ## Resultados
 
@@ -51,7 +51,7 @@ Quase quatro em cada cinco sessões não chegam a ver um produto. Depois do carr
 
 ### P2. Quase ninguém volta a comprar
 
-Só 440 dos 3.713 compradores compraram mais de uma vez em três meses ([`resultados/00_perfil.csv`](resultados/00_perfil.csv)). Nas coortes semanais, a recompra fica entre 0% e 3,6% por semana; o ponto mais alto é a coorte de 30/11/2020 na semana seguinte à primeira compra, com 3,62% ([`resultados/03_coortes.csv`](resultados/03_coortes.csv)). As coortes de janeiro têm poucas semanas de observação. No painel, "-" quer dizer nenhuma recompra registrada ou semana que ainda não tinha acontecido em 31/01/2021.
+Só 440 dos 3.713 compradores compraram mais de uma vez em três meses ([`resultados/00_perfil.csv`](resultados/00_perfil.csv)). Nas coortes semanais, a recompra fica entre 0% e 3,6% por semana; o ponto mais alto é a coorte de 30/11/2020 na semana seguinte à primeira compra, com 3,62% ([`resultados/03_coortes.csv`](resultados/03_coortes.csv)). As coortes de janeiro têm poucas semanas de observação. No painel, "-" quer dizer nenhuma recompra registrada ou semana que ainda não tinha acontecido em 31/01/2021. A coorte de 25/01/2021 (89 compradores) fica fora do mapa de calor, porque o período acaba antes da semana seguinte.
 
 ![Retenção](docs/img/3-retencao.png)
 
@@ -78,6 +78,11 @@ O grupo "Em risco" junta quem gastou muito, comprou uma vez e não volta há 66,
 Fontes: [`resultados/05_conversao_por_grupo.csv`](resultados/05_conversao_por_grupo.csv) e [`resultados/06_testes.csv`](resultados/06_testes.csv).
 
 ![Conversão por grupo](docs/img/5-conversao.png)
+
+## O que fazer
+
+1. **Reativar primeiro os clientes "Em risco".** São 466 clientes que fizeram uma compra só, de US$ 141,08 em média, e não compram há 66,6 dias. Cenário: se 10% deles voltarem a comprar uma vez, com esse gasto médio, são cerca de US$ 6,6 mil (466 × 10% × US$ 141,08 = US$ 6.574), perto de 2% da receita do período (US$ 308.830). Os 10% são uma premissa para dimensionar a ação, não uma previsão.
+2. **Depois, atacar a entrada do funil.** 78,6% das sessões (283.109 de 360.129) não chegam a ver um produto. A segunda maior perda, entre ver o produto e pôr no carrinho, é de 61.832 sessões: a entrada perde mais de quatro vezes isso.
 
 ## O que os dados não permitem concluir
 

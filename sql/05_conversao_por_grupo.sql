@@ -42,8 +42,19 @@ GROUP BY 2
 )
 
 -- Taxa e intervalo de 95% de cada grupo (aproximação normal), para o painel.
+-- grupo_pt: o rótulo em português que o painel mostra.
 SELECT
   *,
+  CASE grupo
+    WHEN 'organic' THEN 'Busca orgânica'
+    WHEN '(none)' THEN 'Acesso direto'
+    WHEN 'referral' THEN 'Indicação'
+    WHEN 'cpc' THEN 'Mídia paga'
+    WHEN 'desktop' THEN 'Computador'
+    WHEN 'mobile' THEN 'Celular'
+    WHEN 'tablet' THEN 'Tablet'
+    ELSE 'Mascarado ou vazio'
+  END AS grupo_pt,
   ROUND(sessoes_com_compra / sessoes, 5) AS taxa,
   ROUND(sessoes_com_compra / sessoes - 1.96 * SQRT(sessoes_com_compra / sessoes * (1 - sessoes_com_compra / sessoes) / sessoes), 5) AS ic_baixo,
   ROUND(sessoes_com_compra / sessoes + 1.96 * SQRT(sessoes_com_compra / sessoes * (1 - sessoes_com_compra / sessoes) / sessoes), 5) AS ic_alto

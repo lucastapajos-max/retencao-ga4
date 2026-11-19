@@ -1,9 +1,9 @@
-dimensao,grupo,sessoes,sessoes_com_compra,taxa,ic_baixo,ic_alto
-canal,organic,122841,1347,0.01097,0.01038,0.01155
-canal,(none),83459,1079,0.01293,0.01216,0.01369
-canal,(mascarado ou vazio),74687,1213,0.01624,0.01533,0.01715
-canal,referral,63524,1056,0.01662,0.01563,0.01762
-canal,cpc,15618,153,0.0098,0.00825,0.01134
-dispositivo,desktop,208942,2749,0.01316,0.01267,0.01365
-dispositivo,mobile,143185,1995,0.01393,0.01333,0.01454
-dispositivo,tablet,8002,104,0.013,0.01052,0.01548
+dimensao,grupo,sessoes,sessoes_com_compra,grupo_pt,taxa,ic_baixo,ic_alto
+canal,organic,122841,1347,Busca orgânica,0.01097,0.01038,0.01155
+canal,(none),83459,1079,Acesso direto,0.01293,0.01216,0.01369
+canal,(mascarado ou vazio),74687,1213,Mascarado ou vazio,0.01624,0.01533,0.01715
+canal,referral,63524,1056,Indicação,0.01662,0.01563,0.01762
+canal,cpc,15618,153,Mídia paga,0.0098,0.00825,0.01134
+dispositivo,desktop,208942,2749,Computador,0.01316,0.01267,0.01365
+dispositivo,mobile,143185,1995,Celular,0.01393,0.01333,0.01454
+dispositivo,tablet,8002,104,Tablet,0.013,0.01052,0.01548

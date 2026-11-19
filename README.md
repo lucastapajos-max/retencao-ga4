@@ -29,7 +29,7 @@ São quatro perguntas menores, uma por análise:
 
 - **Funil:** a unidade é a sessão. Uma sessão conta numa etapa se teve pelo menos um evento dela (`session_start`, `view_item`, `add_to_cart`, `begin_checkout`, `purchase`). O GA4 não garante a ordem dos eventos, então as etapas não são exigidas em sequência.
 - **Coortes:** cada comprador entra na coorte da semana da primeira compra. A retenção é a parte da coorte que comprou de novo 1, 2, 3… semanas depois.
-- **RFM:** só compradores. Recência e valor em quintis; frequência em três faixas (1, 2, 3 ou mais compras), porque 88,1% dos compradores (3.273 de 3.713) compraram uma vez só e quintis de frequência não separariam ninguém ([`resultados/00_perfil.csv`](resultados/00_perfil.csv)). Os segmentos saem de uma tabela de regras no próprio SQL. O empate nos quintis é desfeito pelo id do usuário, para o resultado ser o mesmo a cada execução.
+- **RFM:** só compradores. Recência e valor em quintis; frequência em três faixas (1, 2, 3 ou mais compras), porque 88,1% dos compradores (3.273 de 3.713) compraram uma vez só e quintis de frequência não separariam ninguém ([`resultados/00_perfil.csv`](resultados/00_perfil.csv)). Os segmentos saem de uma tabela de regras no próprio SQL. As notas saem da posição de cada cliente (`RANK`): quem empata, como dois clientes que compraram no mesmo dia, recebe a mesma nota.
 - **Teste:** z de duas proporções para celular contra computador, com intervalo de 95% e h de Cohen; qui-quadrado para os quatro canais legíveis juntos. É uma comparação observacional: ninguém sorteou os grupos, então uma diferença aqui não prova causa. O cálculo tem um teste automatizado contra um caso feito à mão ([`tests/test_teste_proporcoes.py`](tests/test_teste_proporcoes.py)).
 - **Painel:** cada fonte do Data Studio é uma consulta personalizada sobre a tabela pública, com o mesmo SQL deste repositório. Nada fica salvo no projeto do BigQuery, porque no sandbox gratuito tabelas e views expiram em 60 dias. A preparação dos dados (limpeza, rótulos em português, taxas) fica no SQL; o Data Studio cuida da visualização e de métricas do próprio painel, como a taxa de conversão, que é um campo calculado (`SUM(sessoes_com_compra) / SUM(sessoes)`).
 
@@ -59,14 +59,14 @@ Só 440 dos 3.713 compradores compraram mais de uma vez em três meses ([`result
 
 | Segmento | Clientes | % dos clientes | % da receita | Receita média (US$) |
 |---|---:|---:|---:|---:|
-| Campeões | 149 | 4,01% | 10,14% | 210,25 |
-| Fiéis | 291 | 7,84% | 14,66% | 155,61 |
-| Novos | 1.285 | 34,61% | 27,70% | 66,56 |
-| Em risco (alto valor) | 466 | 12,55% | 21,29% | 141,08 |
-| Perdidos | 890 | 23,97% | 10,35% | 35,91 |
-| Ocasionais | 632 | 17,02% | 15,86% | 77,51 |
+| Campeões | 147 | 3,96% | 9,70% | 203,86 |
+| Fiéis | 293 | 7,89% | 15,10% | 159,19 |
+| Novos | 1.246 | 33,56% | 26,84% | 66,52 |
+| Em risco (alto valor) | 463 | 12,47% | 21,22% | 141,54 |
+| Perdidos | 898 | 24,19% | 10,48% | 36,03 |
+| Ocasionais | 666 | 17,94% | 16,66% | 77,24 |
 
-O grupo "Em risco" junta quem gastou muito, comprou uma vez e não volta há 66,6 dias em média. São 12,55% dos clientes e 21,29% da receita. Gastaram em média US$ 141,08 cada, quase quatro vezes o grupo Perdidos (US$ 35,91). Fonte: [`resultados/04_rfm.csv`](resultados/04_rfm.csv).
+O grupo "Em risco" junta quem gastou muito, comprou uma vez e não volta há 66,6 dias em média. São 12,47% dos clientes e 21,22% da receita. Gastaram em média US$ 141,54 cada, quase quatro vezes o grupo Perdidos (US$ 36,03). Fonte: [`resultados/04_rfm.csv`](resultados/04_rfm.csv).
 
 ![Clientes por segmento](docs/img/4-clientes-rfm.png)
 
@@ -81,7 +81,7 @@ Fontes: [`resultados/05_conversao_por_grupo.csv`](resultados/05_conversao_por_gr
 
 ## O que fazer
 
-1. **Reativar primeiro os clientes "Em risco".** São 466 clientes que fizeram uma compra só, de US$ 141,08 em média, e não compram há 66,6 dias. Cenário: se 10% deles voltarem a comprar uma vez, com esse gasto médio, são cerca de US$ 6,6 mil (466 × 10% × US$ 141,08 = US$ 6.574), perto de 2% da receita do período (US$ 308.830). Os 10% são uma premissa para dimensionar a ação, não uma previsão.
+1. **Reativar primeiro os clientes "Em risco".** São 463 clientes que fizeram uma compra só, de US$ 141,54 em média, e não compram há 66,6 dias. Cenário: se 10% deles voltarem a comprar uma vez, com esse gasto médio, são cerca de US$ 6,6 mil (463 × 10% × US$ 141,54 = US$ 6.553), perto de 2% da receita do período (US$ 308.830). Os 10% são uma premissa para dimensionar a ação, não uma previsão.
 2. **Depois, atacar a entrada do funil.** 78,6% das sessões (283.109 de 360.129) não chegam a ver um produto. A segunda maior perda, entre ver o produto e pôr no carrinho, é de 61.832 sessões: a entrada perde mais de quatro vezes isso.
 
 ## O que os dados não permitem concluir

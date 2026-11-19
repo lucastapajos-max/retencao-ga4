@@ -4,6 +4,8 @@
 --     de frequência não separariam ninguém (decisão da Fase 0).
 -- M = receita total em USD; cada transação conta uma vez.
 -- R e M viram notas de 1 a 5 por quintil (5 = melhor). Os segmentos saem das regras abaixo.
+-- Notas pela posição (RANK), não por NTILE: quem empata (mesmo dia, mesmo valor) ganha a
+-- mesma nota, em vez de ser separado por um critério sem sentido, como o id do usuário.
 
 WITH transacoes AS (
   SELECT
@@ -29,9 +31,9 @@ clientes AS (
 notas AS (
   SELECT
     *,
-    NTILE(5) OVER (ORDER BY recencia_dias DESC, user_pseudo_id) AS r,  -- comprou há menos tempo, nota maior
+    1 + CAST(FLOOR(5 * (RANK() OVER (ORDER BY recencia_dias DESC) - 1) / COUNT(*) OVER ()) AS INT64) AS r,  -- comprou há menos tempo, nota maior
     CASE WHEN compras = 1 THEN 1 WHEN compras = 2 THEN 2 ELSE 3 END AS f,
-    NTILE(5) OVER (ORDER BY receita, user_pseudo_id) AS m
+    1 + CAST(FLOOR(5 * (RANK() OVER (ORDER BY receita) - 1) / COUNT(*) OVER ()) AS INT64) AS m
   FROM clientes
 ),
 segmentos AS (

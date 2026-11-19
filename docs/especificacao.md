@@ -38,7 +38,7 @@ Ela se divide em quatro perguntas menores, uma por análise:
 ### P3. Segmentação RFM
 - Só compradores (pelo menos um `purchase` com `transaction_id`).
 - **R:** dias entre a última compra e 31/01/2021. **F:** número de compras distintas. **M:** receita total em USD.
-- R e M em notas de 1 a 5 por quintil (`NTILE(5)`); F em três faixas (1, 2, 3 ou mais compras), pela decisão da seção 8. Notas combinadas em segmentos nomeados (por exemplo Campeões, Fiéis, Em risco, Perdidos, Novos) por uma tabela de regras explícita no SQL.
+- R e M em notas de 1 a 5 por quintil, calculadas pela posição (`RANK`), para empates ganharem a mesma nota; F em três faixas (1, 2, 3 ou mais compras), pela decisão da seção 8. Notas combinadas em segmentos nomeados (por exemplo Campeões, Fiéis, Em risco, Perdidos, Novos) por uma tabela de regras explícita no SQL.
 - **Cuidado:** com três meses, muitos compradores têm uma compra só. A Fase 0 mede isso; se a frequência quase não variar, R e M carregam a segmentação, e o README diz isso.
 
 ### P4. Teste de duas proporções
